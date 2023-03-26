@@ -6,12 +6,44 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
+    provider = "postgresql"
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
+model Vegetable {
+    id        Int   @id @default(autoincrement())
     createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    icon      String? @db.Text
+    name      String
+    wikipedia String?
+    seedling  String?
+    plantation String?
+    harvest     String?
+    exposition String?
+    water       Int?
+    spaceBetween    Int?
+    spaceOnRow  Int?
+    seedMinTemp Int?
+    seedMaxTemp Int?
+    seedDepth   Int?
+    emergence   Int?
+    optimalTemp Int?
+    hardiness   Int?
+    nitrogenN   Int?
+    phosphorusP Int?
+    potassiumK  Int?
+    family      String?
+    gender        String?
+    specie      String?
+    nativeEvent NativeEvents?
+}
+model NativeEvents {
+    id                  String @id @default(cuid())
+    Vegetable           Vegetable   @relation(fields: [vegetableId], references: [id])
+    vegetableId         Int         @unique
+    germination         Int
+    plantation          Int
+    harvest             Int
+    seedling            Int
+    shelterSeedling     Int
 }

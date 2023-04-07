@@ -14,9 +14,6 @@ import { MdFlashAuto } from 'react-icons/md';
 import { BsToggles } from 'react-icons/bs';
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
-import { VegetablesScheme } from '~/lib/scheme/vegetables';
-import { client } from '~/lib/client/client';
-import { QueryClient } from '@tanstack/react-query';
 
 // eslint-disable-next-line @typescript-eslint/sort-type-union-intersection-members
 type ListItemProps = {
@@ -49,15 +46,6 @@ const ListItem = ({ href, link, classnames, icon }: ListItemProps) => (
 const NavigationMenuBar = () => {
   const router = useRouter();
   const currentRoute = router.pathname;
-  const queryClient = new QueryClient();
-  const getAllVegetables = async (signal?: AbortSignal) =>
-  client(`/api/vegetables`, { signal, zodSchema: VegetablesScheme });
-  const prefetchVegetables = async () => {
-    await queryClient.prefetchQuery({
-        queryKey: ['vegetables'],
-        queryFn: ({ signal }) => getAllVegetables(signal),
-      });
-    };
   return (
     <NavigationMenu.Root className="sm:h-full m-1 sm:m-0 text-dark col-start-1 col-span-10 sm:col-span-1 sm:row-start-1 sm:row-end-7 row-start-6 row-end-7 z-[20] sm:z-[20] flex justify-around px-4 py-6 sm:p-0">
       <NavigationMenu.List className="bg-[#ffffff] sm:h-full sm:flex-col m-0 sm:w-full w-[20rem] flex sm:justify-around list-none rounded-[6px] overflow-x-auto">
@@ -122,7 +110,7 @@ const NavigationMenuBar = () => {
             <ul className="bg-dark one m-0 list-none gap-x-[10px] p-[22px] sm:w-[14rem] flex flex-col">
               <li className="">
                 {/* <NavigationMenu.Link asChild> */}
-                  <Link onMouseEnter={prefetchVegetables} href="/legumotheque" className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-primary to-teal-500 group-hover:from-primary group-hover:to-teal-500 hover:text-white">
+                  <Link href="/legumotheque" className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-primary to-teal-500 group-hover:from-primary group-hover:to-teal-500 hover:text-white">
                       <span className="flex items-center relative px-5 py-2.5 transition-all ease-in duration-75 bg-dark text-white font-semibold rounded-md group-hover:bg-opacity-0">
                       <GiCarrot  className='text-[1rem] mr-1' /> Légumothèque
                       </span>

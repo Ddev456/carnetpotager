@@ -14,6 +14,14 @@ const config = {
    *
    * @see https://github.com/vercel/next.js/issues/41980
    */
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.pixabay.com',
+      },
+    ],
+  },
   i18n: {
     locales: ["en"],
     defaultLocale: "en",

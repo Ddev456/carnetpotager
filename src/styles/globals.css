@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import 'map.css';
+@import 'wizardStepper.css';
+@import 'calendar.css';

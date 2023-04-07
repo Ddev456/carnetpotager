@@ -1,0 +1,27 @@
+@media (max-width: 768px) { 
+
+.fc-button-group{
+    height: 100%;
+}
+
+.fc-header-toolbar :nth-child(3) .fc-button-group{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.fc-dayGridMonth-button, .fc-listMonth-button, .fc-multiMonthYear-button{
+    line-height: 1.2 !important;
+    font-size: 0.5 em !important;
+    border-radius: 10px !important;
+    height: 30px !important;
+}
+
+}
+.fc-dayGridMonth-button, .fc-listMonth-button, .fc-multiMonthYear-button{
+font-weight: 700 !important;
+}
+.fc-listMonth-button{
+    background-color: #7EAF57 !important;
+    border-color: #7EAF57 !important;
+    color: #488518 !important;
+}

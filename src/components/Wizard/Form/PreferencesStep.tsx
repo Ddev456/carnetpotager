@@ -6,10 +6,10 @@ export const PreferencesStep = () => {
   const { register } = useFormContext();
 
   return (
-    <div className="w-[75%] flex justify-center">
+    <div className="w-[75%] flex flex-wrap justify-around overflow-auto">
 <div className="container">
-    <h2>Jours de jardinage au potager</h2>
-  <div className="flex flex-wrap">
+    <h2 className="font-bold text-center">Jours où je souhaite jardiner</h2>
+  <div className="flex flex-wrap justify-around">
     <div className="flex items-start space-x-3 py-6">
       <input {...register('preferencesDays')} value={1} type="checkbox" className="border-gray-300 rounded h-5 w-5" />
 
@@ -71,8 +71,8 @@ export const PreferencesStep = () => {
   </div>
   </div>
   <div className="container">
-    <h2>Calendriers à intégrer</h2>
-  <div className="flex flex-wrap">
+    <h2 className="font-bold text-center">Itinéraires de culture à intégrer au calendrier</h2>
+  <div className="flex flex-wrap justify-around">
   <div className="flex items-start space-x-3 py-6">
     <input {...register('preferencesCalendar')} value='shelterSeedling' type="checkbox" className="border-gray-300 rounded h-5 w-5" />
 

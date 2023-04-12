@@ -18,15 +18,15 @@ const Legumotheque = ({vegetables}: {vegetables: VegetableType[]}) => {
         };
 
         const handleChange = (event: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLInputElement>  ) => {
-            const keys = ["name", "family", "category", "exposition"] as const;
+            const keys = ["name", "family", "category", "exposition", "id"] as const;
             setVegetablesList(vegetables.filter((item) =>
-            keys.some((key) => item[key].toLowerCase().includes(event.currentTarget.value.toLowerCase()))
+            keys.some((key) => item[key].toString().toLowerCase().includes(event.currentTarget.value.toLowerCase()))
       ));
         };
 
     return (
 
-<div className="m-4 bg-dark w-full h-full relative overflow-x-auto shadow-md sm:rounded-lg">
+<div className="bg-gray-400 w-full h-full relative overflow-x-auto shadow-md sm:rounded-lg">
     <div className="flex flex-col sm:flex-row items-center justify-between p-4">
         <SelectInput handleChange={handleCategory}/>
         <SearchInput handleChange={handleChange} />

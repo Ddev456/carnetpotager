@@ -47,26 +47,25 @@ const NavigationMenuBar = () => {
   const router = useRouter();
   const currentRoute = router.pathname;
   return (
-    <NavigationMenu.Root className="sm:h-full m-1 sm:m-0 text-dark col-start-1 col-span-10 sm:col-span-1 sm:row-start-1 sm:row-end-7 row-start-6 row-end-7 z-[20] sm:z-[20] flex justify-around px-4 py-6 sm:p-0">
-      <NavigationMenu.List className="bg-[#ffffff] sm:h-full sm:flex-col m-0 sm:w-full w-[20rem] flex sm:justify-around list-none rounded-[6px] overflow-x-auto">
-        <span className='hidden sm:flex flex-col p-2 items-center'>
+    <NavigationMenu.Root className="px-[3rem] sm:m-[10%] text-dark row-start-[10] row-span-1 sm:col-start-1 sm:col-end-[2] col-span-10 sm:col-span-1 sm:row-start-1 sm:row-end-[10] row-start-6 z-[20] sm:z-[20] flex justify-around sm:px-4 sm:py-6 sm:p-0">
+      <NavigationMenu.List className="bg-white w-[20rem] sm:w-full sm:h-full sm:flex-col flex sm:justify-around list-none rounded-[6px] overflow-x-auto">
+        <Link href="/" className='hidden sm:flex flex-col p-2 items-center'>
         <LogoCP />
-        <span className='text-dark font-bold hidden lg:block'>Carnet potager</span>
-        </span>
+        <span className='text-dark font-bold hidden lg:block'>Carnet</span>
+        <span className='text-lime-600 font-bold hidden lg:block'>Potager</span>
+        </Link>
 
         <NavigationMenu.Item className='grid justify-items-center'>
           
-          <NavigationMenu.Trigger className={clsx("flex-col text-dark hover:bg-grayscale group flex select-none items-center justify-between gap-[2px] rounded-[4px] px-3 py-2 font-medium leading-none outline-none",
+          <NavigationMenu.Trigger className={clsx("flex-col text-dark hover:bg-lime-200 group flex select-none items-center justify-between gap-[2px] rounded-[4px] px-3 py-2 font-medium leading-none outline-none",
           {
             "text-white bg-gradient-to-br from-violet-500 to-purple-500 group-hover:from-violet-500 group-hover:to-purple-500" : currentRoute === '/'
           })}
           >
-           <GiGardeningShears className='sm:text-normal text-[2rem]' />
-           <span className='sm:hidden lg:block text-[1rem]'>Mon potager</span>
-            {/* <CaretDownIcon
-              className="text-violet10 relative top-[1px] transition-transform duration-[250] ease-in group-data-[state=open]:-rotate-180"
-              aria-hidden
-            /> */}
+           <Link href="/" className='flex flex-col items-center pointer-events-none sm:pointer-events-auto'>
+                <GiGardeningShears className='sm:text-normal text-[2rem]' />
+                <span className='sm:hidden lg:block text-[1rem]'>Mon potager</span>
+            </Link>
           </NavigationMenu.Trigger>
 
           <NavigationMenu.Content className="sm:data-[motion=from-start]:animate-enterFromLeft sm:data-[motion=from-end]:animate-enterFromRight sm:data-[motion=to-start]:animate-exitToLeft sm:data-[motion=to-end]:animate-exitToRight absolute bottom-full left-0 sm:top-[20%] sm:left-full w-full sm:w-auto">
@@ -97,13 +96,15 @@ const NavigationMenuBar = () => {
         <NavigationMenu.Item className='grid justify-items-center'>
         
           <NavigationMenu.Trigger
-          className={clsx("flex-col text-dark flex select-none items-center justify-between gap-[2px] rounded-[4px] px-3 py-2 text-[15px] font-medium leading-none outline-none",
+          className={clsx("flex-col text-dark flex select-none hover:bg-lime-200 items-center justify-between gap-[2px] rounded-[4px] px-3 py-2 text-[15px] font-medium leading-none outline-none",
           {
             "text-white from-primary to-teal-500 bg-gradient-to-br group group-hover:from-primary group-hover:to-teal-500" : currentRoute === '/legumotheque'
           })}
           >
+            <Link href="/legumotheque" className='flex flex-col items-center pointer-events-none sm:pointer-events-auto'>
               <GiCarrot className='sm:text-normal text-[2rem]' />
               <span className='sm:hidden lg:block text-[1rem]'>Légumothèque</span>
+            </Link>
           </NavigationMenu.Trigger>
 
           <NavigationMenu.Content className="sm:data-[motion=from-start]:animate-enterFromLeft sm:data-[motion=from-end]:animate-enterFromRight sm:data-[motion=to-start]:animate-exitToLeft sm:data-[motion=to-end]:animate-exitToRight absolute bottom-full left-0 sm:top-[35%] sm:left-full w-full sm:w-auto">
@@ -125,13 +126,14 @@ const NavigationMenuBar = () => {
         </NavigationMenu.Item>
         <NavigationMenu.Item className='grid justify-items-center'>
           
-            <NavigationMenu.Trigger className={clsx("flex-col text-dark group flex select-none items-center justify-between gap-[2px] rounded-[4px] px-3 py-2 text-[15px] font-medium leading-none outline-none",
+            <NavigationMenu.Trigger className={clsx("flex-col text-dark group flex hover:bg-lime-200 select-none items-center justify-between gap-[2px] rounded-[4px] px-3 py-2 text-[15px] font-medium leading-none outline-none",
             {
               "text-white bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500" : currentRoute === '/calendrier'
             })}>
-            <BsCalendar2Check className='sm:text-normal text-[2rem]' />
-            <span className='sm:hidden lg:block text-[1rem]'>Calendrier</span>
-
+            <Link href="/calendrier" className='flex flex-col items-center pointer-events-none sm:pointer-events-auto'>       
+                <BsCalendar2Check className='sm:text-normal text-[2rem]' />
+                <span className='sm:hidden lg:block text-[1rem]'>Calendrier</span>
+            </Link>
             </NavigationMenu.Trigger>
         
           <NavigationMenu.Content className="sm:data-[motion=from-start]:animate-enterFromLeft sm:data-[motion=from-end]:animate-enterFromRight sm:data-[motion=to-start]:animate-exitToLeft sm:data-[motion=to-end]:animate-exitToRight absolute bottom-full left-0 sm:top-[55%] sm:left-full w-full sm:w-auto">
@@ -152,12 +154,14 @@ const NavigationMenuBar = () => {
         <hr className='hidden sm:block mx-6'/>
 
         <NavigationMenu.Item className='grid justify-items-center'>
-          <NavigationMenu.Trigger className={clsx("flex-col text-dark group flex select-none items-center justify-between gap-[2px] rounded-[4px] px-3 py-2 text-[15px] font-medium leading-none outline-none", 
+          <NavigationMenu.Trigger className={clsx("flex-col text-dark group flex select-none hover:bg-lime-200 items-center justify-between gap-[2px] rounded-[4px] px-3 py-2 text-[15px] font-medium leading-none outline-none", 
           {
             "text-white bg-gradient-to-br from-amber-400 to-orange-300 group-hover:from-amber-400 group-hover:to-orange-300" : currentRoute === '/settings'
           })}>
+            <Link href="/" className='flex flex-col items-center pointer-events-none sm:pointer-events-auto'>
           <MdOutlineSettings className='sm:text-normal text-[2rem]' />
           <span className='sm:hidden lg:block text-[1rem]'>Paramètres</span>
+          </Link>
             {/* <CaretDownIcon
               className="text-violet10 relative top-[1px] transition-transform duration-[250] ease-in group-data-[state=open]:-rotate-180"
               aria-hidden
@@ -187,9 +191,9 @@ const NavigationMenuBar = () => {
           </NavigationMenu.Content>
         </NavigationMenu.Item>
 
-        <NavigationMenu.Indicator className="data-[state=visible]:animate-fadeIn data-[state=hidden]:animate-fadeOut top-full z-[1] flex h-[10px] items-end justify-center overflow-hidden transition-[width,transform_250ms_ease]">
+        {/* <NavigationMenu.Indicator className="data-[state=visible]:animate-fadeIn data-[state=hidden]:animate-fadeOut top-full z-[1] flex h-[10px] items-end justify-center overflow-hidden transition-[width,transform_250ms_ease]">
           <div className="relative top-[70%] h-[10px] w-[10px] rotate-[45deg] rounded-tl-[2px] bg-white" />
-        </NavigationMenu.Indicator>
+        </NavigationMenu.Indicator> */}
       </NavigationMenu.List>
 
       {/* <div className="perspective-[2000px] absolute sm:left-[100%] sm:bottom-auto bottom-full sm:w-auto w-[90%] flex sm:justify-center">

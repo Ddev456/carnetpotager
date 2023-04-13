@@ -9,7 +9,7 @@ const Home = ({vegetables}: {vegetables: VegetableType[]}) => {
   return (
     <>
       <Head>
-        <title>Carnet Potager</title>
+        <title>Carnet Potager - beta</title>
         <meta name="description" content="Application de gestion du potager" />
         <link rel="icon" href="/LogoM.svg" />
       </Head>

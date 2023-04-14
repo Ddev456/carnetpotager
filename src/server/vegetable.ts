@@ -1,9 +1,7 @@
 import { prisma } from './db';
 
-export const getAllVegetables = async(page = 0) => {
+export const getAllVegetables = async() => {
  const vegetables = await prisma.vegetable.findMany({
-      skip: page * 10,
-      take: 10,
       orderBy: {
         name: 'asc',
       },});

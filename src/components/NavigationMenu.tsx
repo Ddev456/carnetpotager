@@ -6,7 +6,6 @@ import { GiGardeningShears, GiCarrot } from 'react-icons/gi';
 import { MdOutlineSettings} from 'react-icons/md';
 import { LogoCP } from '~/assets/LogoCP';
 import { BiMessageDots } from "react-icons/bi";
-import { AiOutlineStar } from 'react-icons/ai';
 import { ImStatsDots } from 'react-icons/im';
 import { TbShovel } from 'react-icons/tb';
 import { TfiAgenda } from 'react-icons/tfi';
@@ -64,7 +63,7 @@ const NavigationMenuBar = () => {
           >
            <Link href="/" className='flex flex-col items-center pointer-events-none sm:pointer-events-auto'>
                 <GiGardeningShears className='sm:text-normal text-[2rem]' />
-                <span className='sm:hidden lg:block text-[1rem]'>Mon potager</span>
+                <span className='sm:hidden lg:block text-[1rem]'>Accueil</span>
             </Link>
           </NavigationMenu.Trigger>
 
@@ -74,12 +73,11 @@ const NavigationMenuBar = () => {
                 {/* <NavigationMenu.Link asChild> */}
                   <Link href="/" className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-violet-500 to-purple-500 group-hover:from-violet-500 group-hover:to-purple-500 hover:text-white">
                       <span className="flex items-center relative px-5 py-2.5 transition-all ease-in duration-75 bg-dark text-white font-semibold rounded-md group-hover:bg-opacity-0">
-                      <GiGardeningShears className='text-[1rem] mr-1' /> Mon Potager
+                      <GiGardeningShears className='text-[1rem] mr-1' /> Accueil
                       </span>
                   </Link>
                 {/* </NavigationMenu.Link> */}
               </li>
-              <ListItem href="#" classnames="bg-gradient-to-br from-amber-500 to-yellow-100 group-hover:from-amber-500 group-hover:to-yellow-100 hover:text-white" link="Plantes Favorites" icon={<AiOutlineStar className='text-[1rem] mr-1' />}/>
               <ListItem href="#" classnames="group bg-gradient-to-br from-slate-500 to-dark__bg group-hover:from-slate-500 group-hover:to-dark__gb hover:text-white" link="Statistiques du potager" icon={<ImStatsDots className='text-[1rem] mr-1' />}/>
             </ul>
           </NavigationMenu.Content>

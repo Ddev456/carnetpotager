@@ -3,7 +3,6 @@ import { FormProvider, useForm } from "react-hook-form";
 import { TiTick } from "react-icons/ti";
 import { ClimateStep } from "./Form/ClimateStep";
 import { getClimate } from "./Form/Map";
-import { PreferencesStep } from "./Form/PreferencesStep";
 import { SelectionStep } from "./Form/SelectionStep";
 
 const Stepper = ({complete, setComplete}: {complete: boolean, setComplete: Dispatch<SetStateAction<boolean>>}) => {
@@ -18,8 +17,6 @@ const Stepper = ({complete, setComplete}: {complete: boolean, setComplete: Dispa
         return <SelectionStep />;
       case 2:
         return <ClimateStep />;
-      case 3:
-        return <PreferencesStep />;
       default:
         break;
     }

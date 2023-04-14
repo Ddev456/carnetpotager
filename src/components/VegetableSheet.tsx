@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import React, { useEffect, useState, type PropsWithChildren } from 'react';
+import React, { useState, type PropsWithChildren } from 'react';
 import { type VegetableType } from '~/lib/scheme/vegetables';
-import { AiFillStar, AiOutlineHeart, AiOutlinePlusSquare } from 'react-icons/ai';
-import { AiOutlineCheckCircle, AiOutlineInfoCircle, AiOutlineCalendar, AiFillHeart, AiFillCheckSquare} from 'react-icons/ai';
+import { AiFillStar, AiOutlinePlusSquare } from 'react-icons/ai';
+import { AiOutlineCheckCircle, AiOutlineInfoCircle, AiOutlineCalendar, AiFillCheckSquare} from 'react-icons/ai';
 import * as Accordion from '@radix-ui/react-accordion';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 import { FaSeedling } from 'react-icons/fa';
@@ -102,43 +102,11 @@ export const handlePotager = (id: string, vegetable: VegetableType): Selection =
 };
 
 export const VegetableSheet = ({vegetable, accordionItemId}: VegetableSheetProps) => {
-  type Fav = { [propKey: string]: {name: string, favorites: boolean}};
-  
-  const keyOfLs = `vegetable${vegetable.id}` as string;
+
   const keySelectionOfLs = `selection${vegetable.id}` as string;
 
-  const [favorites, setFavorites] = useState<Fav>({});
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selection, setSelection] = useState<Selection>({});
-  
-  useEffect(()=>{
-    const favoritesStorage = JSON.parse(localStorage.getItem("favorites") ?? JSON.stringify({"selection1":{vegetable:{id: 1, name: 'Tomate', icon: 'https://cdn.pixabay.com/photo/2020/09/12/21/14/tomatoes-5566744_640.jpg'}, selected: true}}));
-    setFavorites(favoritesStorage);
-    localStorage.setItem("favorites", JSON.stringify(favoritesStorage));
-  },[]);
-  
-  const handleFavorites = (id: string, name: string) => {
-    const keyOfLocalStorage = `vegetable${id}` as string;
-    const favoritesStorage = JSON.parse(localStorage.getItem("favorites") ?? JSON.stringify({"selection1":{vegetable:{id: 1, name: 'Tomate', icon: 'https://cdn.pixabay.com/photo/2020/09/12/21/14/tomatoes-5566744_640.jpg'}, selected: true}}));
-
-    const isExist = favoritesStorage[keyOfLocalStorage] ? true : false; 
-    if(isExist){
-      const isFavorites = favoritesStorage[keyOfLocalStorage].favorites === true;
-        if(isFavorites){ 
-        favoritesStorage[keyOfLocalStorage].favorites = false;
-        localStorage.setItem("favorites", JSON.stringify(favoritesStorage));
-        setFavorites(favoritesStorage);
-        }else{
-          favoritesStorage[keyOfLocalStorage].favorites = true;
-          localStorage.setItem("favorites", JSON.stringify(favoritesStorage));
-          setFavorites(favoritesStorage);
-        }
-    }else{
-      favoritesStorage[keyOfLocalStorage] = { name: name, favorites: true };
-      localStorage.setItem("favorites", JSON.stringify(favoritesStorage));
-      setFavorites(favoritesStorage);
-    }
-  };
 
     return (
      <AccordionItem value={accordionItemId.toString()}>
@@ -146,7 +114,7 @@ export const VegetableSheet = ({vegetable, accordionItemId}: VegetableSheetProps
             <AccordionTrigger>
             <div className='overflow-hidden relative w-full h-full rounded-lg'>
               
-                <Image className="absolute -left-6 h-auto rounded-full" src={vegetable.icon} width={80} height={80} alt="tomate" />
+                <Image className="absolute -left-6 h-auto rounded-full" src={vegetable.thumbnail} width={80} height={80} alt="tomate" />
                 <div className="h-full flex justify-between ml-[60px] items-center">
                   
                       <div className="flex flex-wrap w-[5rem] text-base font-semibold">{vegetable.name}</div>
@@ -169,12 +137,6 @@ export const VegetableSheet = ({vegetable, accordionItemId}: VegetableSheetProps
                       
                   
                   <div className="flex items-center mr-4">
-                  { !favorites[keyOfLs]?.favorites ?
-                        <AiOutlineHeart onClick={() => handleFavorites(vegetable.id.toString(), vegetable.name)} className="hover:scale-125 transitions-transform text-[1.5rem]"
-                        />
-                        :
-                        <AiFillHeart onClick={() => handleFavorites(vegetable.id.toString(), vegetable.name)} className="hover:scale-125 transitions-transform text-[1.5rem] text-red-500"/>
-                  }
                   { !Object.keys(getPotager()).includes(keySelectionOfLs) ?
                         <AiOutlinePlusSquare onClick={() => setSelection(handlePotager(vegetable.id.toString(), vegetable))} className='hover:scale-125 transitions-transform text-[1.5rem]'/>
                         :

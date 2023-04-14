@@ -1,10 +1,8 @@
 // import { type NextPage } from "next";
 import Head from "next/head";
-import { MonPotager } from "~/components/MonPotager";
-import { type VegetableType } from "~/lib/scheme/vegetables";
-import { getAllVegetables } from "~/server/vegetable";
+import { HomeComponent } from "~/components/HomeComponent";
 
-const Home = ({vegetables}: {vegetables: VegetableType[]}) => {
+const Home = () => {
 
   return (
     <>
@@ -14,24 +12,12 @@ const Home = ({vegetables}: {vegetables: VegetableType[]}) => {
         <link rel="icon" href="/LogoM.svg" />
       </Head>
       
-      <div className="px-[3rem] h-full relative container flex flex-col justify-around items-center">
-
-      <MonPotager vegetables={vegetables}/>
-
-      
+      <div className="px-[2rem] h-full relative container flex flex-col justify-around items-center">
+            <HomeComponent />
       </div>
      
     </>
   );
 };
-
-export async function getStaticProps() {
-  const vegetables = await getAllVegetables();
-  return { 
-  props: { 
-      vegetables: JSON.parse(JSON.stringify(vegetables))
-      } 
-  };
-}
 
 export default Home;

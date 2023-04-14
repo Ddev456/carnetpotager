@@ -3,7 +3,7 @@ import { z } from 'zod';
 const VegetableScheme = z.object({
     id: z.number(),
     createdAt: z.string(),
-    icon: z.string(),
+    thumbnail: z.string(),
     name: z.string(),
     category: z.string(),
     level: z.number(),

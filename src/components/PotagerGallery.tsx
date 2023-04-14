@@ -50,7 +50,7 @@ const ElementGallery = ({setSelectionToDisplay, item, isSelected}: ElementGaller
         {isSelected ?
         <span className="bg-blue-200 font-medium text-blue-800 text-center p-0.5 leading-none rounded-full px-2 dark:bg-blue-900 dark:text-blue-200 absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0 text-[2rem]"><AiFillCheckCircle /></span>
         : null}
-        <Image className="hover:opacity-75 h-auto max-w-full rounded-lg" width={120} height={120} src={item.icon} alt="thumbnail" />
+        <Image className="hover:opacity-75 h-auto max-w-full rounded-lg" width={120} height={120} src={item.thumbnail} alt="thumbnail" />
     </div>;
 };
 

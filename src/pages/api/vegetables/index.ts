@@ -17,7 +17,7 @@ export default apiHandler({
       const params = PageParams.parse(req.query);
       const page = params.page ?? 0;
       const error = params.error; // for testing purpose
-      const vegetables = await getAllVegetables(page);
+      const vegetables = await getAllVegetables();
 
       res.status(200).json({
         vegetables: error ? vegetables.map(() => error) : vegetables, // for testing purpose

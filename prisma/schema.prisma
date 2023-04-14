@@ -10,56 +10,52 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Vegetable {
-    id        Int   @id @default(autoincrement())
-    createdAt DateTime @default(now())
-    icon      String? @db.Text
-    name      String
-    category  String?
-    wikipedia String?
-    seedling  String?
-    selterSeedling String?
-    plantation String?
-    flowering String?
-    harvesting String?
-    harvest     String?
-    exposition String?
-    water       Int?
+model Plants {
+    id              Int   @id @default(autoincrement())
+    createdAt       DateTime @default(now())
+    thumbnail       String? @db.Text
+    name            String
+    category        String?
+    family          String?
+    gender          String?
+    wikipedia       String?
+    seedling        String?
+    nursery         String?
+    plantation      String?
+    flowering       String?
+    harvesting      String?
+    harvest         String?
+    exposition      String?
+    seedlingInfo    String[]
+    cultureInfo     String[]
+    harvestInfo     String[]
+    water           Int?
     spaceBetween    Int?
-    spaceOnRow  Int?
-    seedMinTemp Int?
-    seedMaxTemp Int?
-    seedDepth   Int?
-    emergence   Int?
-    optimalTemp Int?
-    hardiness   Int?
-    isHardiness Boolean?
-    nitrogenN   Int?
-    phosphorusP Int?
-    potassiumK  Int?
-    family      String?
-    gender        String?
-    specie      String?
-    level       Int?
-    nativeEvent NativeEvents?
+    spaceOnRow      Int?
+    seedMinTemp     Int?
+    seedMaxTemp     Int?
+    seedDepth       Int?
+    emergence       Int?
+    optimalTemp     Int?
+    hardiness       Int?
+    nitrogenN       Int?
+    phosphorusP     Int?
+    potassiumK      Int?
+    level           Int?
+    efficiency      Int?
+    conservation    Int?
+    isHardiness     Boolean?
+    nativesEvent    NativesEvents?
 }
 
-model Event {
-    id                  String   @id @default(cuid())
-    title               String
-    start               DateTime
-    end                 DateTime
-    eventCategory       String
-    relatedVegetable    Int
-}
-
-model NativeEvents {
+model NativesEvents {
     id                  String @id @default(cuid())
-    Vegetable           Vegetable   @relation(fields: [vegetableId], references: [id])
-    vegetableId         Int         @unique
-    germination         Int
-    plantation          Int
-    harvest             Int
-    seedling            Int
-    shelterSeedling     Int
+    Plant               Plants   @relation(fields: [plantId], references: [id])
+    plantId             Int         @unique
+    nursery             Int[]
+    seedling            Int[]
+    transplanting       Int[]
+    thinning            Int[]
+    plantation          Int[]
+    harvest             Int[]
 }

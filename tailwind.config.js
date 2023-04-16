@@ -1,7 +1,11 @@
 /** @type {import('tailwindcss').Config} */
-const config = {
-  content: ["./node_modules/flowbite-react/**/*.js", "./src/**/*.{js,ts,jsx,tsx}",
+
+module.exports = {
+  content: ["./src/**/*.{js,ts,jsx,tsx}",
+  "./node_modules/flowbite/**/*.{js,jsx,ts,tsx}",
+  "./node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
 ],
+  darkMode: ['class', '[data-mode="light"]'],
   theme: {
     extend: {
       colors: {
@@ -97,5 +101,3 @@ const config = {
   },
 
 };
-
-module.exports = config;

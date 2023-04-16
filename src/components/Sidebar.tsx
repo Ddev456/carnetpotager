@@ -22,7 +22,7 @@ export const SidebarNav = () => {
     })}>
     <div className="h-full">
     <Sidebar className='w-full' aria-label="Sidebar">
-        <button className='hidden lg:block' onClick={() => toggleSideBar(!hideSideBar)}><CgArrowAlignH className='text-gray-900 text-[2rem]'/></button>
+        <button className='dark:text-white hidden lg:block' onClick={() => toggleSideBar(!hideSideBar)}><CgArrowAlignH className='text-gray-900 text-[2rem]'/></button>
     <Sidebar.Logo
     className='flex flex-col -m-[5%] -mt-[20%]'
       href="#"

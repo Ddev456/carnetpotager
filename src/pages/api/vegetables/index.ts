@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { apiHandler } from '../../../server/handler';
-import { getAllVegetables } from '../../../server/vegetable';
+import { getAllPlants } from '../../../server/plants';
 import { z } from 'zod'; 
 
 const PageParams = z.object({
@@ -17,7 +17,7 @@ export default apiHandler({
       const params = PageParams.parse(req.query);
       const page = params.page ?? 0;
       const error = params.error; // for testing purpose
-      const vegetables = await getAllVegetables();
+      const vegetables = await getAllPlants();
 
       res.status(200).json({
         vegetables: error ? vegetables.map(() => error) : vegetables, // for testing purpose

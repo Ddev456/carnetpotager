@@ -3,11 +3,12 @@ import React, { type Dispatch, type SetStateAction, useState } from 'react';
 import { useWizard } from '~/context/WizardContext';
 import { AiFillCheckCircle } from 'react-icons/ai';
 import { getPotager, handlePotager } from './VegetableSheet';
-import { type VegetableType } from '~/lib/scheme/vegetables';
+// import { type PlantType } from '~/lib/scheme/plants';
+import { type Plants } from '@prisma/client';
 
 type ElementGalleryProps = {
     setSelectionToDisplay: Dispatch<SetStateAction<object>>;
-    item: VegetableType;
+    item: Plants;
     isSelected: boolean;
 }
 
@@ -41,7 +42,7 @@ export const MonPotagerItems = () => {
 };
 
 const ElementGallery = ({setSelectionToDisplay, item, isSelected}: ElementGalleryProps) => {
-    const handleClick = (item: VegetableType) => {
+    const handleClick = (item: Plants) => {
         const handleSelection = handlePotager(item.id.toString(), item);
         setSelectionToDisplay(handleSelection);
       };
@@ -50,19 +51,19 @@ const ElementGallery = ({setSelectionToDisplay, item, isSelected}: ElementGaller
         {isSelected ?
         <span className="bg-blue-200 font-medium text-blue-800 text-center p-0.5 leading-none rounded-full px-2 dark:bg-blue-900 dark:text-blue-200 absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0 text-[2rem]"><AiFillCheckCircle /></span>
         : null}
+        {item.thumbnail ?
         <Image className="hover:opacity-75 h-auto max-w-full rounded-lg" width={120} height={120} src={item.thumbnail} alt="thumbnail" />
+            : null }
     </div>;
 };
 
 export const PotagerGallery = () => {
     const { values } = useWizard();
     const [query, setQuery] = useState("");
-    const selection = values.filter((vegetable) =>
-    vegetable.category
-      .toLowerCase()
-      .replace(/\s+/g, '')
-      .includes(query.toLowerCase().replace(/\s+/g, ''))
-  );
+    const selection = values.filter((plant) =>{
+        const categoryToFilter = plant.category ?? "";
+        return categoryToFilter.toLowerCase().replace(/\s+/g, '').includes(query.toLowerCase().replace(/\s+/g, ''));
+    });
 //   const selectionStorage = JSON.parse(localStorage.getItem("selection") ?? JSON.stringify({"selection1":{vegetable:{}, selected: false}}));
 
   const[selectionToDisplay, setSelectionToDisplay] = useState(getPotager());

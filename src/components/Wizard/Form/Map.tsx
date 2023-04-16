@@ -1,6 +1,6 @@
 import { VectorMap } from "@south-paw/react-vector-maps";
 import franceMap from "./france-departments.svg.json";
-import { useState } from "react";
+import { type Dispatch, type SetStateAction, useState } from "react";
 import { useFormContext } from "react-hook-form";
 // import '../../../../styles/map.css'
 
@@ -23,7 +23,7 @@ export const handleClimate = () => {
   const climateStorage = JSON.parse(localStorage.getItem("climate") ?? JSON.stringify({dept: 0, climate: -1, name: ""}));
 };
 
-export const Map = () => {
+export const Map = ({handleClimateIsDefined}: {handleClimateIsDefined: Dispatch<SetStateAction<boolean>>}) => {
     const [clicked, setClicked] = useState({id: '', name: ''});
     const oceanic = ["fr-62", "fr-80", "fr-76", "fr-27", "fr-14", "fr-50", "fr-61", "fr-35", "fr-22", "fr-56", "fr-29", "fr-44", "fr-85", "fr-17", "fr-33", "fr-40", "fr-64"];
     const mediter = ["fr-06","fr-83","fr-13","fr-84","fr-26","fr-07","fr-30","fr-34","fr-11","fr-66","fr-2a","fr-2b"];
@@ -34,6 +34,7 @@ export const Map = () => {
     const { setValue } = useFormContext();
 
     const handleClimate  = (id: string, name: string) => {
+      handleClimateIsDefined(true);
         if(mediter.includes(id)){ 
             setValue('climateIndex', 0);
             localStorage.setItem("climate", JSON.stringify({dept: id, climate: 0, name: name}));

@@ -5,7 +5,8 @@ const EventScheme = z.object({
     title: z.string(),
     start: z.date(),
     // end: z.string(),
-    extendedProps: z.object({ action: z.string().optional() })
+    extendedProps: z.object({ action: z.string().optional() }),
+    allDay: z.boolean(),
 });
 
 export const EventsScheme = z.array(EventScheme);

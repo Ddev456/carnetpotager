@@ -6,6 +6,27 @@
 @import 'wizardStepper.css';
 @import 'calendar.css';
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+
+*{
+  font-family: 'Inter', sans-serif;
+}
+aside > div{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+aside > div > a > img{
+  width: 4rem !important;
+  height: 4rem !important;
+}
+@media screen and (max-width: 1024px) {
+  .flowbite-sidebar-item > svg{
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
 /* OVERFLOW FINDING */
 /* * {
     outline: 1px solid #f00 !important;

@@ -12,7 +12,7 @@ const Home = () => {
         <link rel="icon" href="/LogoM.svg" />
       </Head>
       
-      <div className="px-[2rem] h-full relative container flex flex-col justify-around items-center">
+      <div className="h-full relative container flex flex-col justify-around items-center">
             <HomeComponent />
       </div>
      

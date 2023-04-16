@@ -1,14 +1,14 @@
+import { type Plants } from '@prisma/client';
 import { createContext, type PropsWithChildren, useContext } from 'react';
-import { type VegetableType } from '~/lib/scheme/vegetables';
 
 type WizardContextInput = {
-  values: VegetableType[];
+  values: Plants[];
 }
 
 const WizardContext = createContext<WizardContextInput | null>(null);
 
 type WizardContextProviderProps = {
-  values: VegetableType[]
+  values: Plants[]
 }
 
 export const WizardContextProvider = ({ values, children }: PropsWithChildren<WizardContextProviderProps>) => {
@@ -23,7 +23,5 @@ export const useWizard = () => {
     throw new Error('useWizard must be used within a WizardProvider');
   }
 
-  // On est sûr que context n'est pas null -> `useContext` est sécurisé ✅
-  // Ce qui nous permettera de ne pas avoir besoin de faire des vérifications
   return context;
 };

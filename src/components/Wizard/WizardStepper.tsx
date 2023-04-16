@@ -1,27 +1,28 @@
+import clsx from "clsx";
 import { useState, type Dispatch, type SetStateAction } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { TiTick } from "react-icons/ti";
 import { ClimateStep } from "./Form/ClimateStep";
-import { getClimate } from "./Form/Map";
 import { SelectionStep } from "./Form/SelectionStep";
 
 const Stepper = ({complete, setComplete}: {complete: boolean, setComplete: Dispatch<SetStateAction<boolean>>}) => {
   
-  const steps = ["Sélection", "Climat", "Préférences"];
+  const steps = ["Sélection", "Climat"];
   const [currentStep, setCurrentStep] = useState<number>(1);
   // const [complete, setComplete] = useState(false);
+  const [climateIsDefined, handleClimateIsDefined] = useState<boolean>(false);
   const nestedInput = (step: number) => {
 
     switch(step) {
       case 1:
         return <SelectionStep />;
       case 2:
-        return <ClimateStep />;
+        return <ClimateStep handleClimateIsDefined={handleClimateIsDefined} />;
       default:
         break;
     }
   };
-  const climate = getClimate().climate;
+
   return (
     <>
       <div className="w-full flex justify-center p-6">
@@ -29,13 +30,15 @@ const Stepper = ({complete, setComplete}: {complete: boolean, setComplete: Dispa
         {steps.map((step, i) => (
           <div key={i}>
           <div
-            className = { (currentStep === i + 1) ? "step-item active": "step-item complete"} 
-            // className={`step-item ${currentStep === i + 1} active ${
-            //   (i + 1 < currentStep || complete)} complete`}
+            className={clsx("step-item",{"step-item": currentStep === i + 1},
+            {"active": steps.indexOf(step)+1 === currentStep},
+            {"complete": i + 1 < currentStep || climateIsDefined})}
             >
-             
-            <div className="step" >
-              {i + 1 < currentStep || complete ? <TiTick size={24} /> : i + 1}
+            <div className={clsx("step",{"step": currentStep === i + 1},
+            {"active": steps.indexOf(step)+1 === currentStep},
+            {"complete bg-green-400": i + 1 < currentStep || climateIsDefined},
+            {"finished bg-green-400": (steps.indexOf(step)+1 === currentStep) && (i + 1 < currentStep || climateIsDefined)})} >
+              {i + 1 < currentStep || climateIsDefined ? <TiTick size={24} /> : i + 1}
             </div>
             { steps.indexOf(step)+1 === currentStep ? <p className="text-grayscale">{step}</p> : <></> }
            
@@ -48,8 +51,7 @@ const Stepper = ({complete, setComplete}: {complete: boolean, setComplete: Dispa
           { nestedInput(currentStep) }
         </>
         </div>
-      {!complete && (
-        (currentStep == 2 && climate == -1) ?
+      { (!complete && ((currentStep == 2 && !climateIsDefined)) ?
         <button
           disabled
           className="cursor-no-drop mt-10 text-gray font-bold bg-primary hover:bg-gradient-to-br focus:outline-none rounded-lg px-5 py-2.5 text-center mr-2 mb-2 border-none"
@@ -59,9 +61,9 @@ const Stepper = ({complete, setComplete}: {complete: boolean, setComplete: Dispa
               : setCurrentStep((prev) => prev + 1);
           }}
         >
-          {currentStep === steps.length ? "Suivant" : "Suivant"}
+          Suivant
         </button>
-        :
+      :
         <button
           className="mt-10 text-gray font-bold bg-primary hover:bg-gradient-to-br focus:outline-none rounded-lg px-5 py-2.5 text-center mr-2 mb-2 border-none"
           onClick={() => {
@@ -70,11 +72,11 @@ const Stepper = ({complete, setComplete}: {complete: boolean, setComplete: Dispa
               : setCurrentStep((prev) => prev + 1);
           }}
         >
-          {currentStep === steps.length ? "Suivant" : "Suivant"}
+          {currentStep === steps.length ? "Générer mon calendrier" : "Suivant"}
         </button>
       )}
-     { complete && currentStep === steps.length && <button className="text-gray font-bold bg-primary hover:bg-gradient-to-br 
-          focus:outline-none rounded-lg px-5 py-2.5 text-center mr-2 mb-2 border-none">Ajouter au calendrier</button> }
+     {/* { complete && currentStep === steps.length && <button className="text-gray font-bold bg-primary hover:bg-gradient-to-br 
+          focus:outline-none rounded-lg px-5 py-2.5 text-center mr-2 mb-2 border-none">Générer mon calendrier</button> } */}
     </>
   );
 };

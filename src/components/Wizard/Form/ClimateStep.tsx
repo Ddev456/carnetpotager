@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { type Dispatch, type SetStateAction } from 'react';
 import { Map } from './Map';
 
-export const ClimateStep = () => {
+export const ClimateStep = ({handleClimateIsDefined}: {handleClimateIsDefined: Dispatch<SetStateAction<boolean>>}) => {
+
   return (
-    <Map />
+    <Map handleClimateIsDefined={handleClimateIsDefined} />
   );
 };

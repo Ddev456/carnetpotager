@@ -52,10 +52,10 @@ model NativesEvents {
     id                  String @id @default(cuid())
     Plant               Plants   @relation(fields: [plantId], references: [id])
     plantId             Int         @unique
-    nursery             Int[]
-    seedling            Int[]
-    transplanting       Int[]
-    thinning            Int[]
-    plantation          Int[]
-    harvest             Int[]
+    nursery             Int?
+    seedling            Int?
+    transplanting       Int?
+    thinning            Int?
+    plantation          Int?
+    harvest             Int?
 }

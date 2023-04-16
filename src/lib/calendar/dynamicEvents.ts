@@ -1,52 +1,18 @@
+import { type Plants, type NativesEvents } from "@prisma/client";
 import { type EventType } from "../scheme/events";
 
 export type nativeEvent = {
     id: string;
     plantId: number;
-    nursery: number,
-    seedling: number,
-    transplanting: number,
-    thinning: number,
-    plantation: number,
-    harvest: number,
+    nursery?: number,
+    seedling?: number,
+    transplanting?: number,
+    thinning?: number,
+    plantation?: number,
+    harvest?: number,
 }
 
-export const dynamicEvents = (nativesEvents: nativeEvent[]) => {
-
-    const plants = [
-    {
-        id: 1,
-        createdAt: 1681398350,
-        thumbnail: "https://cdn.pixabay.com/photo/2020/09/12/21/14/tomatoes-5566744_640.jpg",
-        name: "Tomate",
-        category: "légume",
-        family: "Solanaceae",
-        gender: "Solanum",
-        seedling: "Mars à Mai",
-        harvest: "Mi-Juin à Novembre",
-        exposition: "Ensoleillé",
-        seedlingInfo: "",
-        cultureInfo: "",
-        harvestInfo: "",
-        water: 2,
-    },
-    {
-        id: 2,
-        createdAt: 1681398350,
-        thumbnail: "https://cdn.pixabay.com/photo/2018/06/22/13/52/beetroot-3490809_640.jpg",
-        name: "Betterave",
-        category: "légume",
-        family: "Chenopodiaceae",
-        gender: "Beta",
-        seedling: "Mars à Mai",
-        harvest: "Mi-Juin à Novembre",
-        exposition: "Mi-Ombre",
-        seedlingInfo: "",
-        cultureInfo: "",
-        harvestInfo: "",
-        water: 3,
-    }
-];
+export const dynamicEvents = (plants: Plants[], nativesEvents: NativesEvents[], climate = 0) => {
 
     const getPlantInfos = (id: number) => {
         const plantInfos = plants.filter(plant => (plant.id === id));
@@ -94,35 +60,103 @@ const DateIso = ({week, year}: {week: number, year: number}) => {
     };
 };
 
-    const getDynamicEvent = (actionItem: number, actionItemName: string, item: nativeEvent) => {
-        const infos = getPlantInfos(item.plantId);
-        const title = `${actionItemName} de ${infos[0]?.name}`;
+    type eventInfos = {
+        actionItemName: string;
+        backgroundColor: string;
+    }
+
+    const eventInfos: eventInfos[] = [{
+        actionItemName: "Semis pépinière",
+        backgroundColor: "#5eead4"
+    },
+    {
+        actionItemName: "Semis",
+        backgroundColor: "#fed7aa",
+    },
+    {
+        actionItemName: "Repiquage",
+        backgroundColor: "#fca5a5",
+    },
+    {
+        actionItemName: "Eclaircissage",
+        backgroundColor: "#7dd3fc",
+    },
+    {
+        actionItemName: "Plantation",
+        backgroundColor: "#bef264",
+    },
+    {
+        actionItemName: "Récolte",
+        backgroundColor: "#fde68a",
+    }
+    ];
+
+    const getDynamicEvent = (actionItem: number, eventInfos: eventInfos, item: NativesEvents, action: string) => {
+        const plantName = getPlantInfos(item.plantId)[0]?.name;
+        // const title = `${actionItemName} de ${plantName}`;
+        const title = `${plantName} `;
         const start = DateIso({week: actionItem, year: 2023}).ISOweekStart;
-        const extProps = Object.keys(item)[actionItem];
+        // const extProps = Object.keys(item)[actionItem];
         const dynamicEvent = {
-            id: actionItemName+item.plantId,
+            id: eventInfos.actionItemName+item.plantId,
             title: title,
             start: start,
-            extendedProps: {action: extProps}
+            extendedProps: {action: action, plant: getPlantInfos(item.plantId)[0]?.thumbnail},
+            allDay: true,
+            // backgroundColor: eventInfos.backgroundColor,
+            backgroundColor: "#ffffff",
+            textColor: "#3F3D56",
         };
         return dynamicEvent;
     };
 
-    const mediter = () => {
-        const dynamicEvents: EventType[] = []; 
+
+
+    const potager = () => {
+        const dynamicEvents: EventType[] = [];
         nativesEvents.map((item) => {
-        const nurseryEvent = getDynamicEvent(item.nursery, "Semis pépinière", item);
-        const seedlingEvent = getDynamicEvent(item.seedling, "Semis", item);
-        const transplantingEvent = getDynamicEvent(item.transplanting, "Repiquage", item);
-        const thinningEvent = getDynamicEvent(item.thinning, "Eclaircissage", item);
-        const plantationEvent = getDynamicEvent(item.plantation, "Plantation", item);
-        const harvestEvent = getDynamicEvent(item.harvest, "Récolte", item);
-        dynamicEvents.push(nurseryEvent);
-        dynamicEvents.push({...seedlingEvent});
-        dynamicEvents.push({...transplantingEvent});
-        dynamicEvents.push({...thinningEvent});
-        dynamicEvents.push({...plantationEvent});
-        dynamicEvents.push({...harvestEvent});
+        if(item.nursery){
+            const nurseryEvent = getDynamicEvent(item.nursery+climate, {
+                actionItemName: "Semis pépinière",
+                backgroundColor: "#5eead4"
+            }, item, "nursery");
+            dynamicEvents.push({...nurseryEvent});
+        }
+        if(item.seedling){
+            const seedlingEvent = getDynamicEvent(item.seedling+climate, {
+                actionItemName: "Semis",
+                backgroundColor: "#fed7aa",
+            }, item, "seedling");
+            dynamicEvents.push({...seedlingEvent});
+        }
+        if(item.transplanting){
+            const transplantingEvent = getDynamicEvent(item.transplanting+climate, {
+                actionItemName: "Repiquage",
+                backgroundColor: "#fca5a5",
+            }, item, "transplanting");
+            dynamicEvents.push({...transplantingEvent});
+        }  
+        if(item.thinning){
+            const thinningEvent = getDynamicEvent(item.thinning+climate, {
+                actionItemName: "Eclaircissage",
+                backgroundColor: "#7dd3fc",
+            }, item, "thinning");
+            dynamicEvents.push({...thinningEvent});
+        }
+        if(item.plantation){
+            const plantationEvent = getDynamicEvent(item.plantation+climate, {
+                actionItemName: "Plantation",
+                backgroundColor: "#bef264",
+            }, item, "plantation");
+            dynamicEvents.push({...plantationEvent});
+        }
+        if(item.harvest){
+            const harvestEvent = getDynamicEvent(item.harvest+climate, {
+                actionItemName: "Récolte",
+                backgroundColor: "#fde68a",
+            }, item, "harvest");
+            dynamicEvents.push({...harvestEvent});
+        }
     });
     const sortedEvents = dynamicEvents.sort((a, b) => {
         return a.start.getTime() - b.start.getTime();
@@ -135,21 +169,126 @@ const DateIso = ({week, year}: {week: number, year: number}) => {
      );
     return etalonnage;
 };
+
+
+
+    const mediter = () => {
+        const dynamicEvents: EventType[] = []; 
+        nativesEvents.map((item) => {
+        if(item.nursery){
+            const nurseryEvent = getDynamicEvent(item.nursery, {
+                actionItemName: "Semis pépinière",
+                backgroundColor: "#5eead4"
+            }, item, "nursery");
+            dynamicEvents.push({...nurseryEvent});
+        }
+        if(item.seedling){
+            const seedlingEvent = getDynamicEvent(item.seedling, {
+                actionItemName: "Semis",
+                backgroundColor: "#fed7aa",
+            }, item, "seedling");
+            dynamicEvents.push({...seedlingEvent});
+        }
+        if(item.transplanting){
+            const transplantingEvent = getDynamicEvent(item.transplanting, {
+                actionItemName: "Repiquage",
+                backgroundColor: "#fca5a5",
+            }, item, "transplanting");
+            dynamicEvents.push({...transplantingEvent});
+        }
+        if(item.thinning){
+            const thinningEvent = getDynamicEvent(item.thinning, {
+                actionItemName: "Eclaircissage",
+                backgroundColor: "#7dd3fc",
+            }, item, "thinning");
+            dynamicEvents.push({...thinningEvent});
+        }
+        if(item.plantation){
+            const plantationEvent = getDynamicEvent(item.plantation, {
+                actionItemName: "Plantation",
+                backgroundColor: "#bef264",
+            }, item, "plantation");
+            dynamicEvents.push({...plantationEvent});
+        }
+        if(item.harvest){
+            const harvestEvent = getDynamicEvent(item.harvest, {
+                actionItemName: "Récolte",
+                backgroundColor: "#fde68a",
+            }, item, "harvest");
+            dynamicEvents.push({...harvestEvent});
+        }
+    });
+    const sortedEvents = dynamicEvents.sort((a, b) => {
+        return a.start.getTime() - b.start.getTime();
+    });
+    const etalonnage = sortedEvents.map((sortedItem, index) => {
+        const isE = ((index % 2) === 0);
+        isE ? sortedItem.start = new Date(sortedItem.start.setDate(sortedItem.start.getDate() + 1)) : sortedItem;
+        return sortedItem;
+    }
+     );
+    return etalonnage;
+};
+
+
+
     const oceanic = () => {
         const dynamicEvents: EventType[] = []; 
         nativesEvents.map((item) => {
-        const nurseryEvent = getDynamicEvent(item.nursery+1, "Semis pépinière", item);
-        const seedlingEvent = getDynamicEvent(item.seedling+1, "Semis", item);
-        const transplantingEvent = getDynamicEvent(item.transplanting+1, "Repiquage", item);
-        const thinningEvent = getDynamicEvent(item.thinning+1, "Eclaircissage", item);
-        const plantationEvent = getDynamicEvent(item.plantation+1, "Plantation", item);
-        const harvestEvent = getDynamicEvent(item.harvest+1, "Récolte", item);
-        dynamicEvents.push(nurseryEvent);
-        dynamicEvents.push({...seedlingEvent});
-        dynamicEvents.push({...transplantingEvent});
-        dynamicEvents.push({...thinningEvent});
-        dynamicEvents.push({...plantationEvent});
-        dynamicEvents.push({...harvestEvent});
+            if(item.nursery){
+                const nurseryEvent = getDynamicEvent(item.nursery + 1, {
+                    actionItemName: "Semis pépinière",
+                    backgroundColor: "#5eead4"
+                }, item, "nursery");
+                dynamicEvents.push({...nurseryEvent});
+            }
+            if(item.seedling){
+                const seedlingEvent = getDynamicEvent(item.seedling + 1, {
+                    actionItemName: "Semis",
+                    backgroundColor: "#fed7aa",
+                }, item, "seedling");
+                dynamicEvents.push({...seedlingEvent});
+            }
+            if(item.transplanting){
+                const transplantingEvent = getDynamicEvent(item.transplanting + 1, {
+                    actionItemName: "Repiquage",
+                    backgroundColor: "#fca5a5",
+                }, item, "transplanting");
+                dynamicEvents.push({...transplantingEvent});
+            }
+            if(item.thinning){
+                const thinningEvent = getDynamicEvent(item.thinning + 1, {
+                    actionItemName: "Eclaircissage",
+                    backgroundColor: "#7dd3fc",
+                }, item, "thinning");
+                dynamicEvents.push({...thinningEvent});
+            }
+            if(item.plantation){
+                const plantationEvent = getDynamicEvent(item.plantation + 1, {
+                    actionItemName: "Plantation",
+                    backgroundColor: "#bef264",
+                }, item, "plantation");
+                dynamicEvents.push({...plantationEvent});
+            }
+            if(item.harvest){
+                const harvestEvent = getDynamicEvent(item.harvest + 1, {
+                    actionItemName: "Récolte",
+                    backgroundColor: "#fde68a",
+                }, item, "harvest");
+                dynamicEvents.push({...harvestEvent});
+            }
+        // const nurseryEvent = getDynamicEvent(item.nursery+1, "Semis pépinière", item);
+        // const seedlingEvent = getDynamicEvent(item.seedling+1, "Semis", item);
+        // const transplantingEvent = getDynamicEvent(item.transplanting+1, "Repiquage", item);
+        // const thinningEvent = getDynamicEvent(item.thinning+1, "Eclaircissage", item);
+        // const plantationEvent = getDynamicEvent(item.plantation+1, "Plantation", item);
+        // const harvestEvent = getDynamicEvent(item.harvest+1, "Récolte", item);
+        // dynamicEvents.push(nurseryEvent);
+        // dynamicEvents.push({...seedlingEvent});
+        // dynamicEvents.push({...transplantingEvent});
+        // dynamicEvents.push({...thinningEvent});
+        // dynamicEvents.push({...plantationEvent});
+        // dynamicEvents.push({...harvestEvent});
     });
     const sortedEvents = dynamicEvents.sort((a, b) => {
         return a.start.getTime() - b.start.getTime();
@@ -165,18 +304,60 @@ const DateIso = ({week, year}: {week: number, year: number}) => {
     const halfOceanic = () => {
         const dynamicEvents: EventType[] = [];
         nativesEvents.map((item) => {
-        const nurseryEvent = getDynamicEvent(item.nursery+2, "Semis pépinière", item);
-        const seedlingEvent = getDynamicEvent(item.seedling+2, "Semis", item);
-        const transplantingEvent = getDynamicEvent(item.transplanting+2, "Repiquage", item);
-        const thinningEvent = getDynamicEvent(item.thinning+2, "Eclaircissage", item);
-        const plantationEvent = getDynamicEvent(item.plantation+2, "Plantation", item);
-        const harvestEvent = getDynamicEvent(item.harvest+2, "Récolte", item);
-        dynamicEvents.push(nurseryEvent);
-        dynamicEvents.push({...seedlingEvent});
-        dynamicEvents.push({...transplantingEvent});
-        dynamicEvents.push({...thinningEvent});
-        dynamicEvents.push({...plantationEvent});
-        dynamicEvents.push({...harvestEvent});
+            if(item.nursery){
+                const nurseryEvent = getDynamicEvent(item.nursery + 2, {
+                    actionItemName: "Semis pépinière",
+                    backgroundColor: "#5eead4"
+                }, item, "nursery");
+                dynamicEvents.push({...nurseryEvent});
+            }
+            if(item.seedling){
+                const seedlingEvent = getDynamicEvent(item.seedling + 2, {
+                    actionItemName: "Semis",
+                    backgroundColor: "#fed7aa",
+                }, item, "seedling");
+                dynamicEvents.push({...seedlingEvent});
+            }
+            if(item.transplanting){
+                const transplantingEvent = getDynamicEvent(item.transplanting + 2, {
+                    actionItemName: "Repiquage",
+                    backgroundColor: "#fca5a5",
+                }, item, "transplanting");
+                dynamicEvents.push({...transplantingEvent});
+            }
+            if(item.thinning){
+                const thinningEvent = getDynamicEvent(item.thinning + 2, {
+                    actionItemName: "Eclaircissage",
+                    backgroundColor: "#7dd3fc",
+                }, item, "thinning");
+                dynamicEvents.push({...thinningEvent});
+            }
+            if(item.plantation){
+                const plantationEvent = getDynamicEvent(item.plantation + 2, {
+                    actionItemName: "Plantation",
+                    backgroundColor: "#bef264",
+                }, item, "plantation");
+                dynamicEvents.push({...plantationEvent});
+            }
+            if(item.harvest){
+                const harvestEvent = getDynamicEvent(item.harvest + 2, {
+                    actionItemName: "Récolte",
+                    backgroundColor: "#fde68a",
+                }, item, "harvest");
+                dynamicEvents.push({...harvestEvent});
+            }
+        // const nurseryEvent = getDynamicEvent(item.nursery+2, "Semis pépinière", item);
+        // const seedlingEvent = getDynamicEvent(item.seedling+2, "Semis", item);
+        // const transplantingEvent = getDynamicEvent(item.transplanting+2, "Repiquage", item);
+        // const thinningEvent = getDynamicEvent(item.thinning+2, "Eclaircissage", item);
+        // const plantationEvent = getDynamicEvent(item.plantation+2, "Plantation", item);
+        // const harvestEvent = getDynamicEvent(item.harvest+2, "Récolte", item);
+        // dynamicEvents.push(nurseryEvent);
+        // dynamicEvents.push({...seedlingEvent});
+        // dynamicEvents.push({...transplantingEvent});
+        // dynamicEvents.push({...thinningEvent});
+        // dynamicEvents.push({...plantationEvent});
+        // dynamicEvents.push({...harvestEvent});
     },);
     // return dynamicEvents;
     const sortedEvents = dynamicEvents.sort((a, b) => {
@@ -193,18 +374,60 @@ const DateIso = ({week, year}: {week: number, year: number}) => {
     const continent = () => {
         const dynamicEvents: EventType[] = []; 
         nativesEvents.map((item) => {
-        const nurseryEvent = getDynamicEvent(item.nursery+2, "Semis pépinière", item);
-        const seedlingEvent = getDynamicEvent(item.seedling+2, "Semis", item);
-        const transplantingEvent = getDynamicEvent(item.transplanting+2, "Repiquage", item);
-        const thinningEvent = getDynamicEvent(item.thinning+2, "Eclaircissage", item);
-        const plantationEvent = getDynamicEvent(item.plantation+2, "Plantation", item);
-        const harvestEvent = getDynamicEvent(item.harvest+2, "Récolte", item);
-        dynamicEvents.push(nurseryEvent);
-        dynamicEvents.push({...seedlingEvent});
-        dynamicEvents.push({...transplantingEvent});
-        dynamicEvents.push({...thinningEvent});
-        dynamicEvents.push({...plantationEvent});
-        dynamicEvents.push({...harvestEvent});
+            if(item.nursery){
+                const nurseryEvent = getDynamicEvent(item.nursery + 2, {
+        actionItemName: "Semis pépinière",
+        backgroundColor: "#5eead4"
+    }, item, "nursery");
+                dynamicEvents.push({...nurseryEvent});
+            }
+            if(item.seedling){
+                const seedlingEvent = getDynamicEvent(item.seedling + 2, {
+                    actionItemName: "Semis",
+                    backgroundColor: "#fed7aa",
+                }, item, "seedling");
+                dynamicEvents.push({...seedlingEvent});
+            }
+            if(item.transplanting){
+                const transplantingEvent = getDynamicEvent(item.transplanting + 2, {
+                    actionItemName: "Repiquage",
+                    backgroundColor: "#fca5a5",
+                }, item, "transplanting");
+                dynamicEvents.push({...transplantingEvent});
+            }
+            if(item.thinning){
+                const thinningEvent = getDynamicEvent(item.thinning + 2, {
+                    actionItemName: "Eclaircissage",
+                    backgroundColor: "#7dd3fc",
+                }, item, "thinning");
+                dynamicEvents.push({...thinningEvent});
+            }
+            if(item.plantation){
+                const plantationEvent = getDynamicEvent(item.plantation + 2, {
+                    actionItemName: "Plantation",
+                    backgroundColor: "#bef264",
+                }, item, "plantation");
+                dynamicEvents.push({...plantationEvent});
+            }
+            if(item.harvest){
+                const harvestEvent = getDynamicEvent(item.harvest + 2, {
+                    actionItemName: "Récolte",
+                    backgroundColor: "#fde68a",
+                }, item, "harvest");
+                dynamicEvents.push({...harvestEvent});
+            }
+        // const nurseryEvent = getDynamicEvent(item.nursery+2, "Semis pépinière", item);
+        // const seedlingEvent = getDynamicEvent(item.seedling+2, "Semis", item);
+        // const transplantingEvent = getDynamicEvent(item.transplanting+2, "Repiquage", item);
+        // const thinningEvent = getDynamicEvent(item.thinning+2, "Eclaircissage", item);
+        // const plantationEvent = getDynamicEvent(item.plantation+2, "Plantation", item);
+        // const harvestEvent = getDynamicEvent(item.harvest+2, "Récolte", item);
+        // dynamicEvents.push(nurseryEvent);
+        // dynamicEvents.push({...seedlingEvent});
+        // dynamicEvents.push({...transplantingEvent});
+        // dynamicEvents.push({...thinningEvent});
+        // dynamicEvents.push({...plantationEvent});
+        // dynamicEvents.push({...harvestEvent});
     });
     const sortedEvents = dynamicEvents.sort((a, b) => {
         return a.start.getTime() - b.start.getTime();
@@ -220,18 +443,60 @@ const DateIso = ({week, year}: {week: number, year: number}) => {
     const mountain = () => {
         const dynamicEvents: EventType[] = []; 
         nativesEvents.map((item) => {
-        const nurseryEvent = getDynamicEvent(item.nursery+3, "Semis pépinière", item);
-        const seedlingEvent = getDynamicEvent(item.seedling+3, "Semis", item);
-        const transplantingEvent = getDynamicEvent(item.transplanting+3, "Repiquage", item);
-        const thinningEvent = getDynamicEvent(item.thinning+3, "Eclaircissage", item);
-        const plantationEvent = getDynamicEvent(item.plantation+3, "Plantation", item);
-        const harvestEvent = getDynamicEvent(item.harvest+3, "Récolte", item);
-        dynamicEvents.push(nurseryEvent);
-        dynamicEvents.push({...seedlingEvent});
-        dynamicEvents.push({...transplantingEvent});
-        dynamicEvents.push({...thinningEvent});
-        dynamicEvents.push({...plantationEvent});
-        dynamicEvents.push({...harvestEvent});
+            if(item.nursery){
+                const nurseryEvent = getDynamicEvent(item.nursery + 3, {
+                    actionItemName: "Semis pépinière",
+                    backgroundColor: "#5eead4"
+                }, item, "nursery");
+                dynamicEvents.push({...nurseryEvent});
+            }
+            if(item.seedling){
+                const seedlingEvent = getDynamicEvent(item.seedling + 3, {
+                    actionItemName: "Semis",
+                    backgroundColor: "#fed7aa",
+                }, item, "seedling");
+                dynamicEvents.push({...seedlingEvent});
+            }
+            if(item.transplanting){
+                const transplantingEvent = getDynamicEvent(item.transplanting + 3, {
+                    actionItemName: "Repiquage",
+                    backgroundColor: "#fca5a5",
+                }, item, "transplanting");
+                dynamicEvents.push({...transplantingEvent});
+            }
+            if(item.thinning){
+                const thinningEvent = getDynamicEvent(item.thinning + 3, {
+                    actionItemName: "Eclaircissage",
+                    backgroundColor: "#7dd3fc",
+                }, item, "thinning");
+                dynamicEvents.push({...thinningEvent});
+            }
+            if(item.plantation){
+                const plantationEvent = getDynamicEvent(item.plantation + 3, {
+                    actionItemName: "Plantation",
+                    backgroundColor: "#bef264",
+                }, item, "plantation");
+                dynamicEvents.push({...plantationEvent});
+            }
+            if(item.harvest){
+                const harvestEvent = getDynamicEvent(item.harvest + 3, {
+                    actionItemName: "Récolte",
+                    backgroundColor: "#fde68a",
+                }, item, "harvest");
+                dynamicEvents.push({...harvestEvent});
+            }
+        // const nurseryEvent = getDynamicEvent(item.nursery+3, "Semis pépinière", item);
+        // const seedlingEvent = getDynamicEvent(item.seedling+3, "Semis", item);
+        // const transplantingEvent = getDynamicEvent(item.transplanting+3, "Repiquage", item);
+        // const thinningEvent = getDynamicEvent(item.thinning+3, "Eclaircissage", item);
+        // const plantationEvent = getDynamicEvent(item.plantation+3, "Plantation", item);
+        // const harvestEvent = getDynamicEvent(item.harvest+3, "Récolte", item);
+        // dynamicEvents.push(nurseryEvent);
+        // dynamicEvents.push({...seedlingEvent});
+        // dynamicEvents.push({...transplantingEvent});
+        // dynamicEvents.push({...thinningEvent});
+        // dynamicEvents.push({...plantationEvent});
+        // dynamicEvents.push({...harvestEvent});
     });
     const sortedEvents = dynamicEvents.sort((a, b) => {
         return a.start.getTime() - b.start.getTime();
@@ -251,6 +516,7 @@ const DateIso = ({week, year}: {week: number, year: number}) => {
     halfOceanic,
     continent,
     mountain,
+    potager
   };
 };
 

@@ -64,7 +64,7 @@ const NavigationMenuBar = () => {
           <NavigationMenu.Trigger className="sm:w-full flex-col font-semibold group flex select-none items-center justify-between gap-[2px] rounded-[4px] py-2 font-medium leading-none outline-none">
            <Link href="/" className='w-full flex flex-col sm:flex-row sm:justify-around items-center pointer-events-none sm:pointer-events-auto'>
                 <BiHomeAlt2 className='sm:text-[1.5rem] text-[2rem]' />
-                <span className='sm:hidden md:block text-[1rem]'>Accueil</span>
+                {/* <span className='sm:hidden md:block text-[1rem]'>Accueil</span> */}
             </Link>
           </NavigationMenu.Trigger>
 

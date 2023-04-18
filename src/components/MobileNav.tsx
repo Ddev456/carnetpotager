@@ -6,12 +6,8 @@ import { RiHome2Line } from 'react-icons/ri';
 import { GiPlantSeed } from 'react-icons/gi';
 import { AiOutlineCalendar } from 'react-icons/ai';
 import { IoSettingsSharp } from 'react-icons/io5';
-// import { usePotager } from '~/lib/usePotager';
-// import { useReadLocalStorage } from 'usehooks-ts';
 import Image from 'next/image';
 import { usePotager } from '~/lib/usePotager';
-// import { plantLs } from '~/lib/usePotager.js';
-// import { Plants } from '@prisma/client';
 
 export const MobileNav = () => {
     const [isAppsOpen, toggleApps] = useState(false);

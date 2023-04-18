@@ -7,28 +7,32 @@ import { GiPlantSeed } from 'react-icons/gi';
 import { AiOutlineCalendar } from 'react-icons/ai';
 import { IoSettingsSharp } from 'react-icons/io5';
 // import { usePotager } from '~/lib/usePotager';
-import { useReadLocalStorage } from 'usehooks-ts';
+// import { useReadLocalStorage } from 'usehooks-ts';
 import Image from 'next/image';
+// import { plantLs } from '~/lib/usePotager.js';
 // import { Plants } from '@prisma/client';
 
 export const MobileNav = () => {
     const [isAppsOpen, toggleApps] = useState(false);
     const [isNotificationsOpen, toggleNotifications] = useState(false);
+
     const [selection, setSelection] = useState<PlantLs[]>([]);
-    const selectionLs: PlantLs[] = useReadLocalStorage("selection") ?? [];
+    const selectionLs = JSON.parse(JSON.stringify(localStorage.getItem("selection")));
     // const { selection } = usePotager();
     type PlantLs = {
-        id: number;
-        plant: {
-            id: number;
-            createdAt: string;
-            thumbnail: string;
-            name: string;
-            category: string;
+        id?: number;
+        plant?: {
+            id?: number;
+            createdAt?: string;
+            thumbnail?: string;
+            name?: string;
+            category?: string;
         }
     }
     useEffect(()=>{
-        setSelection(selectionLs);
+        if(selectionLs){
+            setSelection(selectionLs);
+        }
     },[selectionLs]);
   return (
     <div className="max-h-[6rem] sm:hidden grid col-start-1 col-end-[13] row-start-1 row-end-2">
@@ -71,14 +75,17 @@ export const MobileNav = () => {
                     <div className="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         Notifications
                     </div>
-                    <>
+                    <div>
                         { selection.map((notifItem) => 
+                        notifItem.plant ? 
                     <Link key={notifItem.id} href="#" className="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
                             <>
                             <span className="flex-shrink-0">
                                 <>
-                            <Image width={12} height={12} className="w-12 h-12 rounded-full" src={notifItem.plant.thumbnail} alt="thumbnail" />
-                            </>
+                                
+                            <Image width={12} height={12} className="w-12 h-12 rounded-full" src={notifItem.plant.thumbnail ?? ""} alt="thumbnail" />
+                                   
+                                </>
                             {/* <div className="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 rounded-full border border-white bg-primary-700 dark:border-gray-700">
                                 <svg aria-hidden="true" className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z"></path><path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path></svg>
                             </div> */}
@@ -89,8 +96,9 @@ export const MobileNav = () => {
                             </span>
                             </>
                     </Link>
+                    : null
                     )}
-                    </>
+                    </div>
                     <a href="#" className="block py-2 text-base font-normal text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:text-white dark:hover:underline">
                         <span className="inline-flex items-center">
                         <span className='mr-2'>Voir tout</span>

@@ -103,8 +103,8 @@ const DateIso = ({week, year}: {week: number, year: number}) => {
             start: start,
             extendedProps: {action: action, plant: getPlantInfos(item.plantId)[0]?.thumbnail},
             allDay: true,
-            // backgroundColor: eventInfos.backgroundColor,
-            backgroundColor: "#ffffff",
+            backgroundColor: eventInfos.backgroundColor,
+            // backgroundColor: "#ffffff",
             textColor: "#3F3D56",
         };
         return dynamicEvent;

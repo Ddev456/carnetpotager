@@ -1,9 +1,13 @@
 .map {
     margin: 1rem auto;
-    min-width: 300px;
-    max-width: 450px;
+    /* min-width: 300px; */
+    width: 450px;
 }
-
+@media screen and(max-width: 640px){
+  .map{
+    max-width: 300px;
+  }
+}
 .map svg {
   stroke: #fff;
 }

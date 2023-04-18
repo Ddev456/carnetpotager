@@ -9,17 +9,17 @@
     flex-direction: column;
     justify-content: space-between;
 }
-.fc-dayGridMonth-button, .fc-listMonth-button, .fc-multiMonthYear-button{
+/* .fc-dayGridMonth-button, .fc-listMonth-button, .fc-multiMonthYear-button{
     line-height: 1.2 !important;
     font-size: 0.5 em !important;
     border-radius: 10px !important;
     height: 30px !important;
-}
+} */
 
 }
-.fc-dayGridMonth-button, .fc-listMonth-button, .fc-multiMonthYear-button{
+/* .fc-dayGridMonth-button, .fc-listMonth-button, .fc-multiMonthYear-button{
 font-weight: 700 !important;
-}
+} */
 .fc-listMonth-button{
     background-color: #7EAF57 !important;
     border-color: #7EAF57 !important;
@@ -35,6 +35,7 @@ font-weight: 700 !important;
 }
 .fc-toolbar-chunk:nth-child(2){
     display: flex;
+    margin-bottom: 2% !important;
 }
 .fc-toolbar-chunk:nth-child(2) > div{
     display: flex;
@@ -44,26 +45,7 @@ font-weight: 700 !important;
 .fc-toolbar-chunk:nth-child(2) > div > * {
     margin-left: 0.5rem;
 }
-.fc-mediterButton-button{
-    background-color: #fed7aa !important;
-    border-color: #fed7aa !important;
-}
-.fc-oceanicButton-button{
-    background-color: #60a5fa !important;
-    border-color: #60a5fa !important;
-}
-.fc-halfOceanicButton-button{
-    background-color: #a5f3fc !important;
-    border-color: #a5f3fc !important;
-}
-.fc-continentButton-button{
-    background-color: #6ee7b7 !important;
-    border-color: #6ee7b7 !important;
-}
-.fc-mountainButton-button{
-    background-color: #a8a29e !important;
-    border-color: #a8a29e !important;
-}
+
 .fc-toolbar-chunk:nth-child(2) > div > button {
     height: fit-content;
 }
@@ -76,7 +58,7 @@ font-weight: 700 !important;
 .fc-header-toolbar{
     display: grid !important;
     grid-template-columns: repeat(6, minmax(0, 1fr));
-    grid-template-rows: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
 }
 .fc-toolbar-chunk:nth-child(1){
     display: flex;
@@ -89,6 +71,7 @@ font-weight: 700 !important;
     grid-row-end: 4;
 }
 .fc-toolbar-chunk:nth-child(2){
+    flex-wrap: wrap;
     grid-row-start: 1;
     grid-column-start: 1;
     grid-column-end: 7;
@@ -103,6 +86,12 @@ font-weight: 700 !important;
 .fc-toolbar-title{
     font-weight: 800;
     margin-top: 0.5rem !important;
+}
+.fc-media-screen{
+    margin-bottom: 4rem;
+}
+.fc-today-button::before{
+    content: "📅";
 }
 @media screen and (max-width: 640px) {
     .menu__toggle{
@@ -132,6 +121,6 @@ font-weight: 700 !important;
         flex-wrap: wrap;
     }
     .fc-header-toolbar{
-        margin-bottom: -1rem !important;
+        margin: 0 !important;
     }
 }

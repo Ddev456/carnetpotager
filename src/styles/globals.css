@@ -26,6 +26,22 @@ aside > div > a > img{
     height: 2.5rem;
   }
 }
+.fc-menuOptions-button{
+  position: relative;
+  color: white !important;
+  background-color: #1d4ed8 !important;
+  font-weight: 700 !important;
+  border-radius: 5px !important;
+  font-size: large !important;
+  padding: 0.5rem !important;
+  text-align: center !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  border-color: #1d4ed8 !important;
+}
+.fc-menuOptions-button:hover{
+  background-color: #1e40af !important;
+}
 
 /* OVERFLOW FINDING */
 /* * {

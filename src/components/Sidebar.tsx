@@ -38,57 +38,49 @@ export const SidebarNav = () => {
     </Sidebar.Logo>
       <Sidebar.Items>
         <Sidebar.ItemGroup>
-          <Sidebar.Item
+          <Link href="/" className='flex items-center justify-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700'>
+          {/* <Sidebar.Item
             className="flowbite-sidebar-item"
             icon={RiHome2Line}
-          >
-            <Link href="/">
-            <span className={clsx('hidden lg:block',
-            {
-                "lg:hidden": hideSideBar
-            }, {
-                "lg:block": !hideSideBar
-            })}>Accueil</span>
+          > */}
+          <RiHome2Line className='h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white'/>
+              <span className={clsx('px-3 flex-1 whitespace-nowrap hidden lg:block',
+              {
+                  "lg:hidden": hideSideBar
+              }, {
+                  "lg:block": !hideSideBar
+              })}>Accueil</span>
+          {/* </Sidebar.Item> */}
             </Link>
-          </Sidebar.Item>
-          <Sidebar.Item
-            className="flowbite-sidebar-item"
-            icon={GiPlantSeed}
-          >
-            <Link href="/legumotheque">
-            <span className={clsx('hidden lg:block',
-            {
-                "lg:hidden": hideSideBar
-            }, {
-                "lg:block": !hideSideBar
-            })}>Légumothèque</span>
+            <Link href="/legumotheque" className='flex items-center justify-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700'>
+            <GiPlantSeed className='h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white'/>
+              <span className={clsx('px-3 flex-1 whitespace-nowrap hidden lg:block',
+              {
+                  "lg:hidden": hideSideBar
+              }, {
+                  "lg:block": !hideSideBar
+              })}>Légumothèque</span>
             </Link>
-          </Sidebar.Item>
-          <Sidebar.Item
-            className="flowbite-sidebar-item"
-            icon={AiOutlineCalendar}
-          >
-            <Link href="/calendrier">
-            <span className={clsx('hidden lg:block',
-            {
-                "lg:hidden": hideSideBar
-            }, {
-                "lg:block": !hideSideBar
-            })}>Calendrier</span>
+            <Link href="/calendrier" className='flex items-center justify-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700'>
+       
+         <AiOutlineCalendar className='h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white'/>
+              <span className={clsx('px-3 flex-1 whitespace-nowrap hidden lg:block',
+              {
+                  "lg:hidden": hideSideBar
+              }, {
+                  "lg:block": !hideSideBar
+              })}>Calendrier</span>
+           
             </Link>
-          </Sidebar.Item>
-          <Sidebar.Item
-            className="flowbite-sidebar-item"
-            href="#"
-            icon={IoSettingsSharp}
-          >
-            <span className={clsx('hidden lg:block',
+            <Link href="#" className='flex items-center justify-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700'>
+            <IoSettingsSharp className='h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white'/>
+            <span className={clsx('px-3 flex-1 whitespace-nowrap hidden lg:block',
      {
         "lg:hidden": hideSideBar
      }, {
         "lg:block": !hideSideBar
      })}>Paramètres</span>
-          </Sidebar.Item>
+     </Link>
         </Sidebar.ItemGroup>
       </Sidebar.Items>
       <Sidebar.CTA>

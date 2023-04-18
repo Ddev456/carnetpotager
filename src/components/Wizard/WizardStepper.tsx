@@ -110,7 +110,6 @@ const methods = useForm({
   const onSubmit = () => {
     if(complete){
       setShowModal(false);
-      localStorage.setItem("isCalendarEmpty", "false");
     }
   };
   // const keys = Object.keys(values);

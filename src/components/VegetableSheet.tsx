@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useState, type PropsWithChildren } from 'react';
+import React, { type PropsWithChildren } from 'react';
 // import { type PlantType } from '~/lib/scheme/plants';
 import { AiFillStar, AiOutlinePlusSquare } from 'react-icons/ai';
 import { AiOutlineCheckCircle, AiOutlineInfoCircle, AiOutlineCalendar, AiFillCheckSquare} from 'react-icons/ai';
@@ -8,6 +8,7 @@ import { ChevronDownIcon } from '@radix-ui/react-icons';
 import { FaSeedling } from 'react-icons/fa';
 import { type Plants } from '@prisma/client';
 import { toast, Toaster } from 'react-hot-toast';
+import { usePotager } from '~/lib/usePotager';
 
 type VegetableSheetProps = {
     vegetable: Plants;
@@ -106,47 +107,47 @@ const AccordionContent = ({ children, ...props }: PropsWithChildren<AccordionCon
   </Accordion.Content>
 );
 
-type Selection = { [propKey: string]: {vegetable: object, selected: boolean}};
+// type Selection = { [propKey: string]: {vegetable: object, selected: boolean}};
 
-export const getPotager = (): object => {
-  if (typeof window !== 'undefined') {
-  const selectionsStorage = JSON.parse(localStorage.getItem("selection") ?? JSON.stringify({"selection1":{vegetable:{id: 1, name: 'Tomate', thumbnail: 'https://cdn.pixabay.com/photo/2020/09/12/21/14/tomatoes-5566744_640.jpg'}, selected: true}}));
-  return selectionsStorage;
-}else{
-  return JSON.parse(JSON.stringify({"selection1":{vegetable:{name: 'Tomate', thumbnail: 'https://cdn.pixabay.com/photo/2020/09/12/21/14/tomatoes-5566744_640.jpg'}, selected: true}}));
-}
-};
+// export const getPotager = (): object => {
+//   if (typeof window !== 'undefined') {
+//   const selectionsStorage = JSON.parse(localStorage.getItem("selection") ?? JSON.stringify({"selection1":{vegetable:{id: 1, name: 'Tomate', thumbnail: 'https://cdn.pixabay.com/photo/2020/09/12/21/14/tomatoes-5566744_640.jpg'}, selected: true}}));
+//   return selectionsStorage;
+// }else{
+//   return JSON.parse(JSON.stringify({"selection1":{vegetable:{name: 'Tomate', thumbnail: 'https://cdn.pixabay.com/photo/2020/09/12/21/14/tomatoes-5566744_640.jpg'}, selected: true}}));
+// }
+// };
 
-export const handlePotager = (id: string, vegetable: Plants): Selection => {
-  const keyOfLocalStorage = `selection${id}` as string;
-  const selectionsStorage = JSON.parse(localStorage.getItem("selection") ?? JSON.stringify({"selection1":{vegetable:{id: 1, name: 'Tomate', thumbnail: 'https://cdn.pixabay.com/photo/2020/09/12/21/14/tomatoes-5566744_640.jpg'}, selected: true}}));
-
-  const isExist = selectionsStorage[keyOfLocalStorage] ? true : false; 
-  if(isExist){
-    const isSelected = selectionsStorage[keyOfLocalStorage].selected === true;
-      if(isSelected){ 
-        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-        delete selectionsStorage[keyOfLocalStorage];
-      localStorage.setItem("selection", JSON.stringify(selectionsStorage));
-      return selectionsStorage;
-      }else{
-        selectionsStorage[keyOfLocalStorage].selected = true;
-        localStorage.setItem("selection", JSON.stringify(selectionsStorage));
-        return selectionsStorage;
-      }
-  }else{
-    selectionsStorage[keyOfLocalStorage] = { vegetable: vegetable, selected: true };
-    localStorage.setItem("selection", JSON.stringify(selectionsStorage));
-    return selectionsStorage;
-  }
-};
+// export const handlePotager = (id: string, vegetable: Plants): Selection => {
+//   const keyOfLocalStorage = `selection${id}` as string;
+//   const selectionsStorage = JSON.parse(localStorage.getItem("selection") ?? JSON.stringify({"selection1":{vegetable:{id: 1, name: 'Tomate', thumbnail: 'https://cdn.pixabay.com/photo/2020/09/12/21/14/tomatoes-5566744_640.jpg'}, selected: true}}));
+  
+//   const isExist = selectionsStorage[keyOfLocalStorage] ? true : false; 
+//   if(isExist){
+//     const isSelected = selectionsStorage[keyOfLocalStorage].selected === true;
+//       if(isSelected){ 
+//         // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+//         delete selectionsStorage[keyOfLocalStorage];
+//       localStorage.setItem("selection", JSON.stringify(selectionsStorage));
+//       return selectionsStorage;
+//       }else{
+//         selectionsStorage[keyOfLocalStorage].selected = true;
+//         localStorage.setItem("selection", JSON.stringify(selectionsStorage));
+//         return selectionsStorage;
+//       }
+//   }else{
+//     selectionsStorage[keyOfLocalStorage] = { vegetable: vegetable, selected: true };
+//     localStorage.setItem("selection", JSON.stringify(selectionsStorage));
+//     return selectionsStorage;
+//   }
+// };
 
 export const VegetableSheet = ({vegetable, accordionItemId}: VegetableSheetProps) => {
 
-  const keySelectionOfLs = `selection${vegetable.id}` as string;
-
+  // const keySelectionOfLs = `selection${vegetable.id}` as string;
+  const { selection, addToSelection } = usePotager();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selection, setSelection] = useState<Selection>({});
+  // const [selection, setSelection] = useState<Selection>({});
 
     return (
       <>
@@ -185,14 +186,14 @@ export const VegetableSheet = ({vegetable, accordionItemId}: VegetableSheetProps
                       : null }
                   
                   <div className="flex items-center mr-4">
-                  { !Object.keys(getPotager()).includes(keySelectionOfLs) ?
+                  { !selection.find(plant => plant.id == vegetable.id) ?
                         <AiOutlinePlusSquare onClick={() => {
                           notification(vegetable);
-                          setSelection(handlePotager(vegetable.id.toString(), vegetable));
+                          addToSelection(vegetable.id, vegetable);
                         }
                         } className='hover:scale-125 transitions-transform text-[1.5rem]'/>
                         :
-                        <AiFillCheckSquare onClick={() => setSelection(handlePotager(vegetable.id.toString(), vegetable))} className='hover:scale-125 transitions-transform text-[1.5rem] text-green-500'/>
+                        <AiFillCheckSquare onClick={() => addToSelection(vegetable.id, vegetable)} className='hover:scale-125 transitions-transform text-[1.5rem] text-green-500'/>
                   }
                           </div>
                 </div>

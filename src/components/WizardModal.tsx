@@ -11,7 +11,7 @@ export const WizardModal = ({showModal, setShowModal}: {showModal: boolean, setS
                 <h3 className='font-extrabold relative'>Assitant potager - Calendrier</h3>
                 <p className='font-semibold'>Laissez vous guider par l’assistant pour générer votre potager, votre calendrier ...</p>
                 <WizardStepper setShowModal={setShowModal} />
-                <Image className="absolute right-0 object-cover w-[20%] ml-[25%] sm:max-w-[140px]" alt="empty" src={WizardPicture}/>
+                <Image className="absolute object-cover w-[20%] ml-[70%] sm:ml-[25%] sm:max-w-[140px]" alt="wizard" src={WizardPicture}/>
         </div>
     </Modal>
   );

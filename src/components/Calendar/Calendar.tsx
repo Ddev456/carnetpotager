@@ -60,21 +60,16 @@ export const Calendar = ({setShowModal, events, setCalendarType, mediterEvents, 
       switch (action) {
       case "nursery":
         return "🌱";
-        // return <GiGardeningShears className='text-[2rem]' />;
       case "seedling":
         return "🌱";
       case "transplanting":
         return "🪴";
-        // return <TbPlant className='text-[2rem]' />;
       case "thinning":
         return "🫳";  
-      // return <MdSpaceBar className='text-[2rem]' />;
       case "plantation":
         return "🧑‍🌾";
-        // return <TbShovel className='text-[2rem]' />;
       case "harvest":
         return "🧺";
-        // return <FaShoppingBasket className='text-[2rem]' />;
       default:
         break;
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { LogoCP } from '~/assets/LogoCP';
@@ -9,6 +9,7 @@ import { IoSettingsSharp } from 'react-icons/io5';
 // import { usePotager } from '~/lib/usePotager';
 // import { useReadLocalStorage } from 'usehooks-ts';
 import Image from 'next/image';
+import { usePotager } from '~/lib/usePotager';
 // import { plantLs } from '~/lib/usePotager.js';
 // import { Plants } from '@prisma/client';
 
@@ -16,24 +17,23 @@ export const MobileNav = () => {
     const [isAppsOpen, toggleApps] = useState(false);
     const [isNotificationsOpen, toggleNotifications] = useState(false);
 
-    const [selection, setSelection] = useState<PlantLs[]>([]);
-    const selectionLs = JSON.parse(JSON.stringify(localStorage.getItem("selection")));
-    // const { selection } = usePotager();
-    type PlantLs = {
-        id?: number;
-        plant?: {
-            id?: number;
-            createdAt?: string;
-            thumbnail?: string;
-            name?: string;
-            category?: string;
-        }
-    }
-    useEffect(()=>{
-        if(selectionLs){
-            setSelection(selectionLs);
-        }
-    },[selectionLs]);
+    // const selectionLs = useReadLocalStorage<PlantLs[]>("selection");
+    // const [selection, setSelection] = useState<PlantLs[]>([]);
+    // useEffect(()=>{
+    //     setSelection(selectionLs);
+    // },[])
+    const { selection } = usePotager();
+    // type PlantLs = {
+    //     id?: number;
+    //     plant?: {
+    //         id?: number;
+    //         createdAt?: string;
+    //         thumbnail?: string;
+    //         name?: string;
+    //         category?: string;
+    //     }
+    // }
+
   return (
     <div className="max-h-[6rem] sm:hidden grid col-start-1 col-end-[13] row-start-1 row-end-2">
         <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
@@ -77,7 +77,7 @@ export const MobileNav = () => {
                     </div>
                     <div>
                         { selection.map((notifItem) => 
-                        notifItem.plant ? 
+                        
                     <Link key={notifItem.id} href="#" className="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
                             <>
                             <span className="flex-shrink-0">
@@ -96,7 +96,6 @@ export const MobileNav = () => {
                             </span>
                             </>
                     </Link>
-                    : null
                     )}
                     </div>
                     <a href="#" className="block py-2 text-base font-normal text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:text-white dark:hover:underline">
